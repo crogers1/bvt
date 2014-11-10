@@ -169,6 +169,7 @@ def do_iteration(i, options):
     trigger_tests('build ready')
     trigger_tests('soakup')
     trigger_tests('platform ready')
+    trigger_tests('stress')
 
     for guest in options.guest if options.guest else []:
         try:
