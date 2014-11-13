@@ -33,6 +33,7 @@ from bvtlib import build_network_test_vm, vm_reboot
 from bvtlib import install_network_test_vm
 from bvtlib import vm_resource_leakage
 from bvtlib import enforce_encrypted_disks
+from bvtlib import stress
 
 TEST_CASES = (pxe_install_xc.TEST_CASES + network_test.TEST_CASES +
               install_python.TEST_CASES + boot_time.TEST_CASES + 
@@ -54,4 +55,4 @@ TEST_CASES = (pxe_install_xc.TEST_CASES + network_test.TEST_CASES +
               build_network_test_vm.TEST_CASES +
               install_network_test_vm.TEST_CASES +
               vm_resource_leakage.TEST_CASES + vm_reboot.TEST_CASES +
-              enforce_encrypted_disks.TEST_CASES)
+              enforce_encrypted_disks.TEST_CASES + stress.TEST_CASES)

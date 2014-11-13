@@ -47,7 +47,7 @@ def set_experiment_install_flag(dut, value):
     except NoMongoHost:
         print 'NOTE: no mongodb so not setting install flag'
 
-def construct_arg_dict(options, guest, test_parameters, test_case, result_id, vhd_url):
+def construct_arg_dict(options, guest, test_parameters, test_case, result_id, vhd_url, vhd_name):
     """Work out test arguments given options, guest and test parameters.
     Also returns an expanded test_paramters"""
     if guest is None: 
@@ -61,7 +61,8 @@ def construct_arg_dict(options, guest, test_parameters, test_case, result_id, vh
         '$(VHD_URL)': vhd_url,
         '$(PRESEVE_DATABASE)' : options.preserve_database,
         '$(RESULT_ID)' : result_id,
-        '$(GUEST)' : guest}
+        '$(GUEST)' : guest,
+        '$(VHD_NAME)': vhd_name}
     if options.machine:
         specials['$(DUT)'] = options.machine
     
@@ -128,7 +129,8 @@ def run_test(test_parameters, test_case, options, guest=None):
                                                        test_parameters, 
                                                        test_case, 
                                                        recording.result_id,
-                                                       options.vhd_url)
+                                                       options.vhd_url,
+                                                       options.vhd_name)
                     recording.set_description(tps['description'])
                     return test_case['function'](**arg_dict)
     except Exception, exc:
@@ -169,6 +171,7 @@ def do_iteration(i, options):
     trigger_tests('build ready')
     trigger_tests('soakup')
     trigger_tests('platform ready')
+    trigger_tests('stress')
 
     for guest in options.guest if options.guest else []:
         try:
