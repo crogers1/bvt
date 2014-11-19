@@ -57,18 +57,17 @@ def customize_template(host, kind, mem="1024"):
     hidden_entry = """  "hidden": "true",\n  "hidden-in-ui": "true",\n  "slot": "-1" """
 
     def req_hidden(lined_content):
-        lined_content[len(lined_content)-3] = lined_content[len(lined_content)-3]+','
+        lined_content[-3] = lined_content[-3]+','
         lined_content.insert(len(lined_content)-2, hidden_entry)
         return lined_content
    
     def req_disk(lined_content):
         index = 0
-        for line in lined_content:
+        for index, line in lined_content:
             if "disk" in line:
                 lined_content[index+1] = lined_content[index+1].replace('0','1')
                 lined_content.insert(index+1, disk_entry)
                 break
-            index += 1 
         return lined_content
 
     def mem_change(lined_content, memory):
@@ -290,7 +289,7 @@ def vm_up_down(host, vhd_path, iterations=1):
         sleep(5)
     
     check_up(host)
-    print 'INFO PASS: Test complete for %s iterations, host is stable' % iterations
+    print 'INFO: PASS... Test complete for %s iterations, host is stable' % iterations
     print 'INFO: Cleaning up'
     
     run(['xec-vm', '-n', names[0], 'delete'], host=host)
@@ -327,7 +326,7 @@ def multi_vm_start_stop(host, vhd_path, iterations=1):
     print 'INFO: Sleeping while guests start'
     sleep(sleep_val)   #Give em some time to start
 
-    for i in range(0, max_vms):
+    for i in range(max_vms):
         state[i] = (run(['xec-vm', '-u', guest_uuids[i], 'get', 'state'], host=host, \
                 line_split=True))[0]
     all_running = verify_states_running(state)
@@ -379,7 +378,7 @@ def multi_vm_start_stop(host, vhd_path, iterations=1):
     
     multi_vm_test_clean(max_vms, guest_uuids, disks, host)
     
-    print 'INFO PASS: Multiple parallel VM start and stop test completed successfully.'
+    print 'INFO: PASS... Multiple parallel VM start and stop test completed successfully.'
 
         
 def create_from_template(host):
@@ -431,7 +430,7 @@ def incremental_guest_reboot(host, vhd_path):
 
     check_up(host)
     
-    print 'INFO PASS: Passed incremental reboot test.'
+    print 'INFO: PASS... Passed incremental reboot test.'
     
     run(['xec-vm', '-u', guest_uuid[0], 'destroy'], host=host)
     run(['xec-vm', '-u', guest_uuid[0], 'delete'], host=host)

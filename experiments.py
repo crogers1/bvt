@@ -1,4 +1,4 @@
-#!/scratch/autotest_python/bin/python
+#!/usr/bin/python
 #
 # Copyright (c) 2014 Citrix Systems, Inc.
 # 
@@ -309,6 +309,8 @@ def experiments():
                       help='Reboot the Windows VM using toolstack')
     parser.add_option('--vm-reboot-guest', action='store_true',
                       help='Reboot the Windows VM using a guest initiated shutdown')
+    parser.add_option('--vhd-name', action='store', metavar='VHDNAME',
+                       help='Use this name for the VHD at the destination')
     options, args = parser.parse_args()
     if args and options.machine is None:
         options.machine = args[0]
